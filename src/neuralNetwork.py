@@ -38,14 +38,14 @@ def proccess(trainData, trainScores, testData, testScores, task, trainDataProces
     plt.xlabel("Actual irony")
     plt.ylabel("Predicted irony")
     plt.show()
-    print("The accuracy is {}".format(accuracy_score(testScores, predictions)))
-    print("The precision is {}".format(precision_score(testScores, predictions, average='weighted')))
-    print("The recall is {}".format(recall_score(testScores, predictions, average='weighted')))
-    print("The f1 is {}".format(f1_score(testScores, predictions, average='weighted')))
+    print("The accuracy is {value:.5f}%".format(value = accuracy_score(testScores, predictions)))
+    print("The precision is {value:.5f}%".format(value = precision_score(testScores, predictions, average='weighted')))
+    print("The recall is {value:.5f}%".format(value = recall_score(testScores, predictions, average='weighted')))
+    print("The f1 is {value:.5f}%".format(value = f1_score(testScores, predictions, average='weighted')))
     testDataProcessTime = end - start
     print("\n")
-    print("Time taken to train model: ", trainDataProcessTime, "seconds")
-    print("Time taken to test model: ", testDataProcessTime, "seconds")
+    print("Time taken to train model: {value:.5f} seconds".format(value = trainDataProcessTime))
+    print("Time taken to train model: {value:.5f} seconds".format(value = testDataProcessTime))
 
 
 # In[ ]:
