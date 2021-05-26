@@ -4,61 +4,48 @@
 # In[1]:
 
 
-import pandas as pd
+import time
 import re
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.pipeline import make_pipeline
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import f1_score
-from nltk.stem.porter import PorterStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
 
-def neural_network_stats(tweets, scores):
-    df = pd.DataFrame({'tweet': tweets,
-                       'score': target})
-
-    vectorizer = CountVectorizer(max_features=1000)
-    X = vectorizer.fit_transform(df.tweet).toarray()
-    y = df.score
-
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.15, random_state=0)
-
-    classifier = MLPClassifier(random_state=1, max_iter=1000, verbose=True).fit(x_train, y_train)
+def proccess(trainData, trainScores, testData, testScores, task, trainDataProcessTime):
+    start = time.time()
+    model = make_pipeline(TfidfVectorizer(), MLPClassifier())
+    model.fit(trainData, trainScores)
+    predictions = model.predict(testData)
+    end = time.time()
     
-    y_predicted = classifier.predict(x_test)
-
-    print(confusion_matrix(y_test, y_predicted))
-    print('Accuracy: ', accuracy_score(y_test, y_predicted))
-    print('Precision: ', precision_score(y_test, y_predicted, average='weighted', zero_division=1))
-    print('Recall: ', recall_score(y_test, y_predicted, average='weighted'))
-    print('F1: ', f1_score(y_test, y_predicted, average='weighted'))
-
-
-def neural_network_single_tweet(tweets, target):
-    df = pd.DataFrame({'tweet': tweets,
-                       'score': target})
-
-    vectorizer = CountVectorizer(max_features=1000)
-    x = vectorizer.fit_transform(df.tweet).toarray()
-    y = df.score
-
-    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
-
-    classifier = MLPClassifier().fit(x_train, y_train)
-
-    ps = PorterStemmer()
-    tweet = input("Tweet: ")
-    tweet = re.sub('[^a-zA-Z]', ' ', tweet).split()
-    tweet = ' '.join([ps.stem(w) for w in tweet])
-    x = vectorizer.transform([tweet]).toarray()
-
-    result = classifier.predict(x)
-
-    print("From 0 to 1, 0 being 'non-ironic' and 1 'ironic', you tweet scored ", result)
+    if(task == "A"):
+        labels=["0", "1"]
+        print("------------ TASK A -------------")
+        print("-------- NEURAL NETWORKS --------")
+        print("Ironic = 0 | Non-ironic = 1")
+    else:
+        labels=["0", "1", "2", "3"]
+        print("------------ TASK B -------------")
+        print("-------- NEURAL NETWORKS --------")
+        print("\n")
+        print("Ironic with polarity contrast = 0 | Ironic without polarity contrast = 1 | Situationaly ironic = 2 | Non-ironic = 3")
+    
+    mat = confusion_matrix(testScores, predictions)
+    sns.heatmap(mat.T, square = True, annot=True, fmt = "d", xticklabels=labels,yticklabels=labels)
+    plt.xlabel("Actual irony")
+    plt.ylabel("Predicted irony")
+    plt.show()
+    print("The accuracy is {}".format(accuracy_score(testScores, predictions)))
+    print("The precision is {}".format(precision_score(testScores, predictions, average='weighted')))
+    print("The recall is {}".format(recall_score(testScores, predictions, average='weighted')))
+    print("The f1 is {}".format(f1_score(testScores, predictions, average='weighted')))
+    testDataProcessTime = end - start
+    print("\n")
+    print("Time taken to train model: ", trainDataProcessTime, "seconds")
+    print("Time taken to test model: ", testDataProcessTime, "seconds")
 
 
 # In[ ]:
