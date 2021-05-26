@@ -13,6 +13,9 @@ import naive_bayes as nb
 import decisionTree as dt
 import neuralNetwork as nn
 
+import nltk
+nltk.download('wordnet')
+
 def listToString(s): 
     str1 = "" 
     for ele in s: 
@@ -87,27 +90,14 @@ def chooseTask():
         
 def chooseAlgorithm(testFileName, trainFileName, task):
     option = input("Specify which algorithm to use (possible algorithms are \"nb\" (Naive Bayes), \"dt\" (Decision Trees) or \"nn\" (Neural Networks)), or \"EXIT\" to terminate: ")
+    print("\nLoading...\n")
+    trainData, trainScores, testData, testScores = getData(testFileName, trainFileName)
     if option.upper() == "NB":
-        print("\nLoading...\n")
-        start = time.time()
-        trainData, trainScores, testData, testScores = getData(testFileName, trainFileName)
-        end = time.time()
-        trainDataProcessTime = end - start
-        nb.proccess(trainData, trainScores, testData, testScores, task, trainDataProcessTime)
+        nb.proccess(trainData, trainScores, testData, testScores, task)
     elif option.upper() == "DT":
-        print("\nLoading...\n")
-        start = time.time()
-        trainData, trainScores, testData, testScores = getData(testFileName, trainFileName)
-        end = time.time()
-        trainDataProcessTime = end - start
-        dt.proccess(trainData, trainScores, testData, testScores, task, trainDataProcessTime)
+        dt.proccess(trainData, trainScores, testData, testScores, task)
     elif option.upper() == "NN":
-        print("\nLoading...\n")
-        start = time.time()
-        trainData, trainScores, testData, testScores = getData(testFileName, trainFileName)
-        end = time.time()
-        trainDataProcessTime = end - start
-        nn.proccess(trainData, trainScores, testData, testScores, task, trainDataProcessTime)
+        nn.proccess(trainData, trainScores, testData, testScores, task)
     elif option.upper() == "EXIT":
         print('Terminating..')
         sys.exit()
@@ -155,7 +145,19 @@ def getData(testFileName, trainFileName):
         
     return trainData, trainScores, testData, testScores
 
-chooseTask()
+def runAll():
+    trainData, trainScores, testData, testScores = getData("../Test Data/test_taskA.txt", "../Train Data/train_taskA.txt")
+    nb.proccess(trainData, trainScores, testData, testScores, "A")
+    dt.proccess(trainData, trainScores, testData, testScores, "A")
+    nn.proccess(trainData, trainScores, testData, testScores, "A")
+    trainData, trainScores, testData, testScores = getData("../Test Data/test_taskB.txt", "../Train Data/train_taskB.txt")
+    nb.proccess(trainData, trainScores, testData, testScores, "B")
+    dt.proccess(trainData, trainScores, testData, testScores, "B")
+    nn.proccess(trainData, trainScores, testData, testScores, "B")
+
+chooseTask() #USE THIS FUNCTION FOR REGULAR USER-FRIENDLY USE
+
+#runAll() #USE THIS FUNCTION FOR FULL-USAGE OF THE PROGRAM WITH ALL SELECTION POSSIBILITIES OF EVALUATION COMBINED
 
 
 # In[ ]:
