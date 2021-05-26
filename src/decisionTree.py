@@ -44,7 +44,7 @@ def proccess(trainData, trainScores, testData, testScores, task, trainDataProces
     testDataProcessTime = end - start
     print("\n")
     print("Time taken to train model: {value:.5f} seconds".format(value = trainDataProcessTime))
-    print("Time taken to train model: {value:.5f} seconds".format(value = testDataProcessTime))
+    print("Time taken to test model: {value:.5f} seconds".format(value = testDataProcessTime))
 
 
 # In[ ]:
