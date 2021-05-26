@@ -27,7 +27,7 @@ def proccess(trainData, trainScores, testData, testScores, task, trainDataProces
         print("---------- NAIVE BAYES ----------")
         print("Ironic = 0 | Non-ironic = 1")
     else:
-        labels=["0", "1", "2", "3"]"]
+        labels=["0", "1", "2", "3"]
         print("------------ TASK B -------------")
         print("---------- NAIVE BAYES ----------")
         print("\n")
