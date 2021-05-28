@@ -29,13 +29,13 @@ def proccess(trainData, trainScores, testData, testScores, task):
         labels=["0", "1"]
         print("------------ TASK A -------------")
         print("-------- NEURAL NETWORKS --------")
-        print("Ironic = 0 | Non-ironic = 1")
+        print("Non-ironic = 0 | Ironic = 1")
     else:
         labels=["0", "1", "2", "3"]
         print("------------ TASK B -------------")
         print("-------- NEURAL NETWORKS --------")
         print("\n")
-        print("Ironic with polarity contrast = 0 | Ironic without polarity contrast = 1 | Situationaly ironic = 2 | Non-ironic = 3")
+        print("Non-ironic = 0 | Situationaly ironic = 1 | Ironic without polarity contrast = 2 | Ironic with polarity contrast = 3 ")
     
     mat = confusion_matrix(testScores, predictions)
     sns.heatmap(mat.T, square = True, annot=True, fmt = "d", xticklabels=labels,yticklabels=labels)

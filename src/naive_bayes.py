@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[6]:
 
 
 import time
@@ -29,13 +29,13 @@ def proccess(trainData, trainScores, testData, testScores, task):
         labels=["0", "1"]
         print("------------ TASK A -------------")
         print("---------- NAIVE BAYES ----------")
-        print("Ironic = 0 | Non-ironic = 1")
+        print("Non-ironic = 0 | Ironic = 1")
     else:
         labels=["0", "1", "2", "3"]
         print("------------ TASK B -------------")
         print("---------- NAIVE BAYES ----------")
         print("\n")
-        print("Ironic with polarity contrast = 0 | Ironic without polarity contrast = 1 | Situationaly ironic = 2 | Non-ironic = 3")
+        print("Non-ironic = 0 | Situationaly ironic = 1 | Ironic without polarity contrast = 2 | Ironic with polarity contrast = 3 ")
     
     mat = confusion_matrix(testScores, predictions)
     sns.heatmap(mat.T, square = True, annot=True, fmt = "d", xticklabels=labels,yticklabels=labels)
@@ -49,18 +49,6 @@ def proccess(trainData, trainScores, testData, testScores, task):
     print("\n")
     print("Time taken to train model: {value:.5f} seconds".format(value = trainDataProcessTime))
     print("Time taken to test model: {value:.5f} seconds".format(value = testDataProcessTime))
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
